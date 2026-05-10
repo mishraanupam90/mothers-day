@@ -24,13 +24,13 @@ body{
     position:relative;
 }
 
-/* Animated background glow */
+/* Background glow */
 
 body::before{
     content:'';
     position:absolute;
-    width:600px;
-    height:600px;
+    width:700px;
+    height:700px;
     background:rgba(255,255,255,0.15);
     border-radius:50%;
     filter:blur(120px);
@@ -42,16 +42,16 @@ body::before{
         transform:scale(1);
     }
     to{
-        transform:scale(1.3);
+        transform:scale(1.25);
     }
 }
 
-/* Floating hearts */
+/* Floating Hearts */
 
 .heart{
     position:absolute;
     color:white;
-    opacity:0.7;
+    opacity:0.75;
     animation:float linear forwards;
 }
 
@@ -61,7 +61,7 @@ body::before{
         opacity:0;
     }
     to{
-        transform:translateY(-120vh) scale(1.5);
+        transform:translateY(-120vh) scale(1.6);
         opacity:1;
     }
 }
@@ -70,7 +70,7 @@ body::before{
 
 .card{
     width:90%;
-    max-width:650px;
+    max-width:700px;
     padding:50px;
     border-radius:35px;
     background:rgba(255,255,255,0.18);
@@ -95,6 +95,8 @@ h1{
     margin-bottom:40px;
     opacity:0.9;
 }
+
+/* Buttons */
 
 .buttons{
     position:relative;
@@ -136,13 +138,14 @@ button{
     opacity:0.85;
 }
 
-/* Final celebration */
+/* Final Page */
 
 .final{
     display:none;
     text-align:center;
     color:white;
     animation:zoomIn 1.2s ease;
+    z-index:20;
 }
 
 .final h2{
@@ -156,7 +159,7 @@ button{
 }
 
 .bigHeart{
-    font-size:100px;
+    font-size:90px;
     animation:heartbeat 1s infinite;
 }
 
@@ -175,6 +178,51 @@ button{
         transform:scale(1);
         opacity:1;
     }
+}
+
+/* Mom Photo */
+
+.momPhoto{
+    width:230px;
+    height:230px;
+    border-radius:50%;
+    object-fit:cover;
+    border:6px solid white;
+    margin-bottom:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    animation:heartbeat 2s infinite;
+}
+
+/* From text */
+
+.fromText{
+    margin-top:25px;
+    font-size:1.3rem;
+    color:white;
+    line-height:1.8;
+}
+
+.fromText span{
+    font-size:2rem;
+    font-weight:bold;
+}
+
+/* Music Button */
+
+.musicBtn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    background:white;
+    color:#ff4081;
+    border:none;
+    border-radius:50px;
+    padding:12px 22px;
+    font-size:1rem;
+    font-weight:bold;
+    cursor:pointer;
+    z-index:1000;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
 }
 
 /* Confetti */
@@ -200,7 +248,7 @@ button{
 @media(max-width:600px){
 
     h1{
-        font-size:2.1rem;
+        font-size:2.2rem;
     }
 
     .card{
@@ -208,11 +256,16 @@ button{
     }
 
     .final h2{
-        font-size:2.5rem;
+        font-size:2.6rem;
     }
 
     .final p{
         font-size:1.1rem;
+    }
+
+    .momPhoto{
+        width:180px;
+        height:180px;
     }
 }
 
@@ -220,6 +273,18 @@ button{
 </head>
 
 <body>
+
+<!-- Music -->
+
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button class="musicBtn" onclick="playMusic()">
+    🎵 Play Music
+</button>
+
+<!-- Question Card -->
 
 <div class="card" id="questionCard">
 
@@ -240,15 +305,30 @@ button{
 
 </div>
 
+<!-- Final Page -->
+
 <div class="final" id="finalPage">
+
+    <img src="mom.jpg" class="momPhoto">
 
     <div class="bigHeart">❤️</div>
 
     <h2>Happy Mother's Day</h2>
 
-    <p>Thank you for every sacrifice, every smile, every hug 🌸</p>
+    <p>
+        Thank you for every sacrifice,<br>
+        every smile and every hug 🌸
+    </p>
 
-    <p>You are my first home, first teacher, and forever superhero ❤️</p>
+    <p>
+        You are my first home,<br>
+        first teacher and forever superhero ❤️
+    </p>
+
+    <div class="fromText">
+        With lots of love from <br>
+        <span>Advik ❤️</span>
+    </div>
 
 </div>
 
@@ -263,10 +343,12 @@ const timerText = document.getElementById("timerText");
 let movable = true;
 
 // Initial positions
+
 yesBtn.style.left = "20%";
 yesBtn.style.top = "45%";
 
-// Move button randomly
+// Move button
+
 function moveButton(){
 
     if(!movable) return;
@@ -281,14 +363,16 @@ function moveButton(){
     yesBtn.style.top = y + "px";
 }
 
-// Mouse interactions
+// Events
+
 yesBtn.addEventListener("mouseenter", moveButton);
 yesBtn.addEventListener("click", moveButton);
 
-// Auto movement
+// Auto move
+
 const autoMove = setInterval(() => {
     moveButton();
-}, 450);
+}, 400);
 
 // Countdown
 
@@ -299,13 +383,14 @@ const countdown = setInterval(() => {
     seconds--;
 
     if(seconds > 0){
+
         timerText.innerHTML =
         "No option disappears in " + seconds + " sec 😄";
     }
 
 },1000);
 
-// Stop moving after 8 sec
+// Stop moving
 
 setTimeout(() => {
 
@@ -325,7 +410,8 @@ setTimeout(() => {
 
     yesBtn.style.left = "50%";
     yesBtn.style.top = "50%";
-    yesBtn.style.transform = "translate(-50%, -50%) scale(1.15)";
+    yesBtn.style.transform =
+    "translate(-50%, -50%) scale(1.15)";
 
 },8000);
 
@@ -353,7 +439,8 @@ function createHeart(){
 
     heart.innerHTML = "❤️";
 
-    heart.style.left = Math.random()*100 + "vw";
+    heart.style.left =
+    Math.random()*100 + "vw";
 
     heart.style.fontSize =
     (Math.random()*25 + 15) + "px";
@@ -396,6 +483,16 @@ function startConfetti(){
             confetti.remove();
         },5000);
     }
+}
+
+// Music
+
+function playMusic(){
+
+    const music =
+    document.getElementById("bgMusic");
+
+    music.play();
 }
 
 </script>
